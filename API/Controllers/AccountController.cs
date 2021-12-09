@@ -17,18 +17,27 @@ namespace API.Controllers
     {
         private readonly DataContext _context;
         private readonly ITokenService _tokenService;
+
+        // DataContext içinde user listesi var
+        // token service'i 
         public AccountController(DataContext context, ITokenService tokenService){
             _tokenService = tokenService;
             _context = context;
-            
         }
 
+
+        // hashlenmiş şifreler bilinen şifre haslerini barındıran dictionary attack ile kırılabilir. 
+        // bunu salt kullanarak çözebiliriz ama bu da yeterli değil 
+        // property leri doğrudan göndermek güvenli olmayabilir. dto ile encapsulate ederek göndermek daha güvenli
+        // json web tokenlarını da dto ile gönderebilirsin
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register( RegisterDto registerDto)
         {
-
+            // async fonksiyonlarda await task tamamlanana kadar bekler ve sonuç döndürür 
             if(await UserExists(registerDto.Username)) return BadRequest("Username is taken");
 
+            //  IDisposable object oluşturduğunda "using" kullanmak zorundasın. 
+            //  HMACSHA512(), IDisposable'ın torununun torunu
             using var hmac = new HMACSHA512();
 
             var user = new AppUser{

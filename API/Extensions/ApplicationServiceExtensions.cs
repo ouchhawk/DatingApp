@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
 {
+    // daha temiz kod için bu classları oluşturduk. startup.cs deki kalabalık azaldı
     public static class ApplicationServiceExtensions
     {
         // servisi alıyor configüre edip geri döndürüyor

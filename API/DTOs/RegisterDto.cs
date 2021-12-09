@@ -4,6 +4,7 @@ namespace API.DTOs
 {
     public class RegisterDto
     {
+        // girilmezse hata verecek
         [Required]
         public string Username { get; set; }
         [Required]

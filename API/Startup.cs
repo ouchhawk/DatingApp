@@ -42,6 +42,7 @@ namespace API
             // });
             services.AddApplicationServices(_config);
             services.AddControllers();
+            
             services.AddCors();
             services.AddIdentityServices(_config);
             // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -58,6 +59,7 @@ namespace API
             //         };
             //     });
 
+            // ben eklemedim
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
@@ -76,11 +78,12 @@ namespace API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPIv5 v1"));
             }
 
+            // burada sıralama önemli
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-          
+            // farklı adreslerden kaynak alınmaya çalışıldığında cors engelliyor, kaldırmak için:
             app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().WithOrigins("https://localhost:4200"));
             
             app.UseAuthentication();

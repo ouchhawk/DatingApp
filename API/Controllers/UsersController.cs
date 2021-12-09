@@ -26,7 +26,7 @@ namespace API.Controllers
             return await _context.Users.ToListAsync();
         }
 
-        // bu annotation get e ulaşılmasını kısıtlıyor
+        // bu annotation bu get e ulaşılmasını kısıtlıyor
         [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> GetUser(int id)
