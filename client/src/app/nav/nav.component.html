@@ -1,49 +1,48 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
     <div class="container">
-        <a class="navbar-brand" href="#">Dating App</a>
+        <a class="navbar-brand" routerLink='/' href="#">Dating App</a>
 
         <!-- loggedin olunca aşağıdaki elementler gösterilecek -->
-        <ul class="navbar-nav me-auto mb-2 mb-md-0" *ngIf="accountService.currentUser$ | async">
+        <!-- ng containerlar ozellikle if kullanacaksan iyi olur -->
+        <ul class="navbar-nav me-auto mb-2 mb-md-0" >
+            <ng-container *ngIf="accountService.currentUser$ | async" dropdown>
+                <li class="nav-item">
+                    <a class="nav-link " routerLink='/members' routerLinkActive="active">Matches</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink='/lists' routerLinkActive="active">Lists</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink='/messages' routerLinkActive="active">Messages</a>
+                </li>
+            </ng-container>
             <li class="nav-item">
-                <a class="nav-link " href="#">Matches</a>
+                <a class="nav-link" routerLink='/errors' routerLinkActive="active">Errors</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Lists</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Messages</a>
-            </li>
-            
         </ul>
 
-        <div class="dropdown" *ngIf="accountService.currentUser$ | async" dropdown>
-            <a class="dropdown-toggle text-light" dropdownToggle>Welcome user</a>
+        <!-- Use pipes to transform strings, currency amounts, dates, and other data for display.  -->
+        <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
+            <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.username | titlecase }}</a>
             <div class="dropdown-menu mt-3" *dropdownMenu="">
                 <a class="dropdown-item">Edit Profile</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item"(click)="logout()"> Logout</a>
+                <a class="dropdown-item" (click)="logout()"> Logout</a>
             </div>
         </div>
 
         <!-- button tıklandığında çağrılacak şey aşağıya yazdığımız ngsubmit 
         #loginForm="ngForm" ile bu elemente bir angular formu olduğunu söyledik-->
-        <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="login()" autocomplete="off">
-            
-            <!-- name of the property we want to track -->
-            <input 
-            name="USERNAMe"
-            [(ngModel)]="model.username"
-            class="form-control mr-sm-2" 
-            type="text" 
-            placeholder="username">
+        <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm"
+            class="form-inline mt-2 mt-md-0" (ngSubmit)="login()" autocomplete="off">
 
-            <input 
-            name="PASSWORd"
-            [(ngModel)]="model.password"
-            class="form-control mr-sm-2" 
-            type="password" 
-            placeholder="password">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+            <!-- name of the property we want to track -->
+            <input name="USERNAMe" [(ngModel)]="model.username" class="form-control mr-sm-2" type="text"
+                placeholder="username">
+
+            <input name="PASSWORd" [(ngModel)]="model.password" class="form-control mr-sm-2" type="password"
+                placeholder="password">
+            <button class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
         </form>
 
     </div>
